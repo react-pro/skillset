@@ -15,7 +15,7 @@ mongoose.connect(MONGO_URI, {
 });
 console.log(mongoose.connection.readyState);
 
-const indexRouter = require('./routes/api');
+const indexRouter = require('./routes');
 
 
 app.use(logger('dev'));
