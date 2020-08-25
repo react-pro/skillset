@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '12'
+install: npm install
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  app: hack24-skillset
+  api_key:
+    secure: Nuxm/JUk7eWwHJMQe8FjygBxzYtCgco1vZjfG5IjCBqe0IiIIywABgOjAaQLJyr7HR8tl6h9+sOXwzRaVChbWH2icEPGhDN9FgTvacLEuMAbTBGpGULuMysCuNn/AMtbkq2YOWVN14sqGT4qozgTMZ6YPxLCWR04llaCMxZOgxrrhhXqnnttbf3jExHfki0pp5A6rIMjQCfIWGiU6YxVGPGUM3uSnYxJiuVg6ALQsFhjSLMv5xioYVUo6Iv78xDBIZf2KpMFKVufvgJ6ioASaZi2E1cVLMAaVQQTdECwaRVLTLau7DIEBjCJ8fNCKzyTdgB4VnKux6Q1i8mcqjhMIotnrD/DGbfv2r/3MPeO5pm2SRamICDpd3QPaJ/ZCq7l+IcoQJcoOpvI0hp+GOZywJlu60KR8I84EmiQnHRrYmf7Hpz+x3323tBPnqcHaWlthTLcZSEFY4hhTnuNjVepAPoeexK0d+ojdaU3KLSgayTHsA7hWDalAtRQtw37Vo3yTrQdRVS628O52//LFv/j2xLgjHgCtcRY/TDiqBZ5HlRi0t/j5ZcJipUyex3AVlQIDB7l0ev1jl8mco44+ksbMKCrSh7zhj63/5q4ZyE7TY2QvjB3cQzrghdrkG3bbZEiNmysY+5nqE/skAoTOAtViYwmTTc1gmotB4SdwwOXCGg=
