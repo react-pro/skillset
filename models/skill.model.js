@@ -18,13 +18,15 @@ class SkillModel {
 
     async addNode(parent, node, links) {
         try {
+            const parentNode = await Skill.findOne({name: parent});
             const obj = {
                 children: [],
                 name: node,
-                links
+                links,
+                parent: parentNode
             };
-            const newNode = await Skill.create(obj);
-            return await Skill.findOneAndUpdate({name: parent}, {$push: {children: newNode._id}});
+            return await Skill.create(obj);
+            // return await Skill.findOneAndUpdate({name: parent}, {$push: {children: newNode._id}});
         } catch (err) {
             console.log(err);
             throw new Error(err.message);
@@ -33,15 +35,27 @@ class SkillModel {
 
     async getNodeByName(name) {
         try {
-            return await Skill.find({name}).populate('children', '-children');
+            const node = await Skill.findOne({name}).select('-parent -path');
+            node.children = await node.getImmediateChildren({}, ['-parent', '-path', '-children']);
+            return node;
         } catch (err) {
+            console.log(err);
             throw new Error(err.message);
         }
     }
 
     async getNodesFromTo(first, last) {
         try {
+            const firstNode = await Skill.findOne({name: first});
+            const lastNode = await Skill.findOne({name: last});
+            const ancestorsList = await lastNode.getAncestors();
+            let tree;
+            for(let i = 0; i < ancestorsList.length; i++) {
+               const children = ancestorsList[i].getImmediateChildren({});
 
+            }
+
+            return ancestorsList;
 
         } catch (err) {
             console.log(err)

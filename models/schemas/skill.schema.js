@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseMpath = require('mongoose-mpath');
 
 const Schema = mongoose.Schema;
 
@@ -8,10 +9,6 @@ const Skill = new Schema({
         required: true,
         unique: true
     },
-    children: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Skill',
-    }],
     links: {
         type: [{
             name: String,
@@ -21,11 +18,13 @@ const Skill = new Schema({
     }
 });
 
-function autoPopulateChildren(next) {
-    console.log(this.getQuery());
-    this.populate('children');
-    next();
-}
+Skill.plugin(mongooseMpath);
+
+// function autoPopulateChildren(next) {
+//     console.log(this.getQuery());
+//     this.populate('children');
+//     next();
+// }
 
 // Skill
 //     .pre('findOne', autoPopulateChildren)

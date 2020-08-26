@@ -11,7 +11,7 @@ router.post('/skill/add', async (req, res, next) => {
     const {parent, node, links} = req.body;
     try {
         const obj = await SkillService.addNode(parent, node, links);
-        return res.status(201).json({parent: obj})
+        return res.status(201).json(obj)
     } catch (err) {
         return res.status(500).json({error: err});
     }
