@@ -18,13 +18,13 @@ router.post('/skill/add', async (req, res, next) => {
 });
 
 router.get('/skill(:query)?', async (req, res) => {
-    const {lastNode, name} = req.query;
+    const {from, to, name} = req.query;
     let nodes;
     try {
         if (name) {
             nodes = await SkillService.getNodeByName(name);
-        } else if (lastNode) {
-            //part tree
+        } else if (from && to) {
+            nodes = await SkillService.getNodesFromTo(from, to);
         } else {
             //all tree
         }

@@ -18,6 +18,10 @@ class SkillService {
     async getNodeByName(name) {
         return await SkillModel.getNodeByName(name);
     }
+
+    async getNodesFromTo(from, to) {
+        return await SkillModel.getNodesFromTo(from, to);
+    }
 }
 
 module.exports = new SkillService();

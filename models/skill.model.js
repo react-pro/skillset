@@ -33,8 +33,18 @@ class SkillModel {
 
     async getNodeByName(name) {
         try {
-            return await Skill.find({name}).populate('children');
+            return await Skill.find({name}).populate('children', '-children');
         } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getNodesFromTo(first, last) {
+        try {
+
+
+        } catch (err) {
+            console.log(err)
             throw new Error(err.message);
         }
     }

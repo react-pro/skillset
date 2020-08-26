@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Skill = new Schema({
-    name:{
+    name: {
         type: String,
         required: true,
         unique: true
@@ -20,5 +20,15 @@ const Skill = new Schema({
         required: true
     }
 });
+
+function autoPopulateChildren(next) {
+    console.log(this.getQuery());
+    this.populate('children');
+    next();
+}
+
+// Skill
+//     .pre('findOne', autoPopulateChildren)
+//     .pre('find', autoPopulateChildren);
 
 module.exports = mongoose.model('Skill', Skill);
