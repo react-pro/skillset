@@ -14,6 +14,10 @@ class SkillService {
         }
         return await SkillModel.addNode(parent, node, links);
     }
+
+    async getNodeByName(name) {
+        return await SkillModel.getNodeByName(name);
+    }
 }
 
 module.exports = new SkillService();

@@ -5,7 +5,6 @@ class SkillModel {
     async addFirstNode(node, links) {
         try {
             const obj = {
-                id: node,
                 children: [],
                 name: node,
                 links
@@ -20,13 +19,21 @@ class SkillModel {
     async addNode(parent, node, links) {
         try {
             const obj = {
-                id: node,
                 children: [],
                 name: node,
                 links
             };
-            await Skill.create(obj);
-            return await Skill.findOneAndUpdate({id: parent}, {$push: {children: node}});
+            const newNode = await Skill.create(obj);
+            return await Skill.findOneAndUpdate({name: parent}, {$push: {children: newNode._id}});
+        } catch (err) {
+            console.log(err);
+            throw new Error(err.message);
+        }
+    }
+
+    async getNodeByName(name) {
+        try {
+            return await Skill.find({name}).populate('children');
         } catch (err) {
             throw new Error(err.message);
         }
