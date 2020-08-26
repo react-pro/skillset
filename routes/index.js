@@ -18,15 +18,15 @@ router.post('/skill/add', async (req, res, next) => {
 });
 
 router.get('/skill(:query)?', async (req, res) => {
-    const {from, to, name} = req.query;
+    const {branch, name} = req.query;
+    console.log(branch)
     let nodes;
     try {
         if (name) {
             nodes = await SkillService.getNodeByName(name);
-        } else if (from && to) {
-            nodes = await SkillService.getNodesFromTo(from, to);
+        } else if (branch) {
+            nodes = await SkillService.getNodesFromBranch(branch);
         } else {
-            //all tree
         }
     } catch (err) {
         return res.status(500).json({error: err});

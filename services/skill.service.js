@@ -1,4 +1,6 @@
 const SkillModel = require('../models/skill.model');
+const branches = require('../utils/constants');
+
 
 class SkillService {
     async addNode(parent, node, links) {
@@ -19,8 +21,11 @@ class SkillService {
         return await SkillModel.getNodeByName(name);
     }
 
-    async getNodesFromTo(from, to) {
-        return await SkillModel.getNodesFromTo(from, to);
+    async getNodesFromBranch(branch) {
+        if(!branches[branch]) {
+            return null;
+        }
+        return await SkillModel.getNodesFromBranch(branch);
     }
 }
 

@@ -1,11 +1,12 @@
 const Skill = require('./schemas/skill.schema');
+const branches = require('../utils/constants');
+
 
 class SkillModel {
 
     async addFirstNode(node, links) {
         try {
             const obj = {
-                children: [],
                 name: node,
                 links
             };
@@ -20,7 +21,6 @@ class SkillModel {
         try {
             const parentNode = await Skill.findOne({name: parent});
             const obj = {
-                children: [],
                 name: node,
                 links,
                 parent: parentNode
@@ -44,23 +44,34 @@ class SkillModel {
         }
     }
 
-    async getNodesFromTo(first, last) {
+    async getNodesFromBranch(branch) {
         try {
-            const firstNode = await Skill.findOne({name: first});
-            const lastNode = await Skill.findOne({name: last});
-            const ancestorsList = await lastNode.getAncestors();
-            let tree;
-            for(let i = 0; i < ancestorsList.length; i++) {
-               const children = ancestorsList[i].getImmediateChildren({});
-
+            if(branch === 'BASIC') {
+                const basic = await Skill.findOne({name: branches[branch]});
+                const child = await basic.getImmediateChildren()
+                const tree = await this.createTree(1, basic);
+                return tree;
+            } else if(branch === 'ALL') {
+                const basic = await Skill.findOne({name: branches.BASIC});
+                return await basic.getChildrenTree({});
+            } else {
+                const main = await Skill.findOne({name: branches[branch]});
+                const areaTree = await main.getChildrenTree({});
+                if(areaTree.length > 0) {
+                    main.children = areaTree
+                }
+                return main;
             }
-
-            return ancestorsList;
 
         } catch (err) {
             console.log(err)
             throw new Error(err.message);
         }
+    }
+
+    async createTree(level, obj) {
+        obj.children = await obj.getImmediateChildren();
+        return level === 0 ? obj : this.createTree(level - 1, obj.children[0])
     }
 
     async isEmpty() {
